@@ -1,0 +1,12 @@
+user
+{
+  "username": "cousin",
+  "email": "cousin@google",
+  "password": "google",
+  "passwordConfirmation": "google"
+}
+
+announcement
+{
+    "text": "Yaaaaay"
+  }
