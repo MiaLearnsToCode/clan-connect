@@ -1,21 +1,20 @@
 const Announcement = require('../models/announcement')
-// note that commentSchema is imported with the announcement as it is embedded. there's no comment model
 
 // create
-function create(req, res) {
+function create(req, res, next) {
   req.body.family = req.currentFamily
   req.body.user = req.currentUser
   Announcement
     .create(req.body)
     .then(announcement => {
-      if (!announcement.family.equals(req.currentFamily)) return res.status(401).json({ message: 'Unauthorized'})
+      if (!announcement.family.equals(req.currentFamily)) throw new Error('Unauthorized')
       return res.status(201).json(announcement)
     })
-    .catch(err => res.status(422).json(err))
+    .catch(next)
 }
 
 // index
-function index(req, res) {
+function index(req, res, next) {
   req.body.family = req.currentFamily
   req.body.user = req.currentUser
   Announcement
@@ -24,15 +23,15 @@ function index(req, res) {
     .populate('user.family')
     .populate('comments.user')
     .then(announcements => {
-      if (!announcements) return res.status(404).json({ message: 'Announcements not found'})
+      if (!announcements) throw new Error('Not Found')
       const newAnnouncements = announcements.filter(announcement => announcement.family.equals(req.currentFamily) )
       return res.status(200).json(newAnnouncements)
     })
-    .catch(err => res.status(404).json(err))
+    .catch(next)
 }
 
 // show
-function show(req, res) {
+function show(req, res, next) {
   req.body.family = req.currentFamily
   req.body.user = req.currentUser
   Announcement
@@ -40,15 +39,15 @@ function show(req, res) {
     .populate('user')
     .populate('comments.user')
     .then(announcement => {
-      if (!announcement.family.equals(req.currentFamily)) return res.status(401).json({ message: 'Unauthorized'})
-      if (!announcement) return res.status(404).json({ message: 'Announcement not found'})
+      if (!announcement.family.equals(req.currentFamily)) throw new Error('Unauthorized')
+      if (!announcement) throw new Error('Not Found')
       return res.status(200).json(announcement)
     })
-    .catch(err => res.status(404).json(err))
+    .catch(next)
 }
 
 // update
-function update(req, res) {
+function update(req, res, next) {
   req.body.family = req.currentFamily
   req.body.user = req.currentUser
   Announcement
@@ -56,18 +55,18 @@ function update(req, res) {
     .populate('user')
     .populate('comments.user')
     .then(announcement => {
-      if (!announcement.family.equals(req.currentFamily)) return res.status(401).json({ message: 'Unauthorized'})
-      if (!announcement.user.equals(req.currentUser)) return res.status(401).json({ message: 'Unauthorized'})
-      if (!announcement) return res.status(404).json({ message: 'Announcement not found'})
+      if (!announcement.family.equals(req.currentFamily)) throw new Error('Unauthorized')
+      if (!announcement.user.equals(req.currentUser)) throw new Error('Unauthorized')
+      if (!announcement) throw new Error('Not Found')
       Object.assign(announcement, req.body)
       return announcement.save()
     })
     .then(announcement => res.status(202).json(announcement))
-    .catch(err => res.status(422).json(err))
+    .catch(next)
 }
 
 // destroy
-function destroy(req, res){
+function destroy(req, res, next){
   req.body.family = req.currentFamily
   req.body.user = req.currentUser
   Announcement
@@ -75,18 +74,18 @@ function destroy(req, res){
     .populate('user')
     .populate('comments.user')
     .then(announcement => {
-      if (!announcement.user.equals(req.currentUser)) return res.status(401).json({ message: 'Unauthorized u'})
-      if (!announcement.family.equals(req.currentFamily)) return res.status(401).json({ message: 'Unauthorized'})
-      if (!announcement) return res.status(404).json({ message: 'Announcement not found'})
+      if (!announcement.user.equals(req.currentUser)) throw new Error('Unauthorized')
+      if (!announcement.family.equals(req.currentFamily)) throw new Error('Unauthorized')
+      if (!announcement) throw new Error('Not Found')
       return announcement.remove()
     })
     .then(() => res.status(200).json({message: 'Announcement was deleted successfully'}))
-    .catch(err => res.status(422).json(err))
+    .catch(next)
 }
 
 // COMMENTS:
 // Create
-function createComment(req, res) {
+function createComment(req, res, next) {
   req.body.family = req.currentFamily
   req.body.user = req.currentUser
   Announcement
@@ -94,17 +93,17 @@ function createComment(req, res) {
     .populate('user')
     .populate('comments.user')
     .then(announcement => {
-      if (!announcement.family.equals(req.currentFamily)) return res.status(401).json({ message: 'Unauthorized'})
-      if (!announcement) return res.status(404).json({ message: 'Announcement not found'})
+      if (!announcement.family.equals(req.currentFamily)) throw new Error('Unauthorized')
+      if (!announcement) throw new Error('Not Found')
       announcement.comments.push(req.body)
       return announcement.save()
     })
     .then(announcement => res.status(200).json(announcement))
-    .catch(err => res.status(422).json(err))
+    .catch(next)
 }
 
 // Delete: very similar to create but you remove the comment instead of push it (plus need to identify the comment using its id)
-function deleteComment(req, res) {
+function deleteComment(req, res, next) {
   req.body.family = req.currentFamily
   req.body.user = req.currentUser
   Announcement
@@ -112,15 +111,15 @@ function deleteComment(req, res) {
     .populate('user')
     .populate('comments.user')
     .then(announcement => {
-      if (!announcement.family.equals(req.currentFamily)) return res.status(401).json({ message: 'Unauthorized'})
-      if (!announcement.user.equals(req.currentUser)) return res.status(401).json({ message: 'Unauthorized'})
-      if (!announcement) return res.status(404).json({ message: 'announcement not found'})
+      if (!announcement.family.equals(req.currentFamily)) throw new Error('Unauthorized')
+      if (!announcement.user.equals(req.currentUser)) throw new Error('Unauthorized')
+      if (!announcement) throw new Error('Not Found')
       const comment = announcement.comments.id(req.params.commentId)
       comment.remove()
       return announcement.save()
     })
     .then(() => res.status(200).json({message: 'Comment was deleted successfully'}))
-    .catch(err => res.status(422).json(err))
+    .catch(next)
 }
 
 module.exports = { create, index, show, update, destroy, createComment, deleteComment}

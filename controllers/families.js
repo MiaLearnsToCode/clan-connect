@@ -4,42 +4,42 @@ const { secret } = require('../config/environment')
 
 
 // register: simple post request to create a new user object
-function registerFamily(req, res) {
+function registerFamily(req, res,next) {
   Family
     .create(req.body)
     .then(family => res.status(201).json({ message: `You created the ${family.family} family`}))
-    .catch(err => res.status(422).json(err))
+    .catch(next)
 }
 
-function loginFamily(req, res) {
+function loginFamily(req, res,next) {
   Family
     .findOne({ family: req.body.family})
     .then(family => {
-      if (!family) return res.status(404).json({ message: 'Family does not exist'})
+      if (!family) throw new Error('Not Found')
       const token = jwt.sign({ family: family._id }, secret, { expiresIn: '5h'})
       res.status(200).json({ family, token })
     })
-    .catch(err => res.status(401).json(err))
+    .catch(next)
 }
 
-function indexFamilies(req,res) {
+function indexFamilies(req,res,next) {
   Family
     .find()
     .then(families => {
-      if (!families) return res.status(404).json({ message: 'Families not found'})
+      if (!families) throw new Error('Not Found')
       return res.status(200).json(families)
     })
-    .catch(err => res.status(404).json(err))
+    .catch(next)
 }
 
-function showFamily(req,res) {
+function showFamily(req,res,next) {
   Family
     .findById(req.params.familyId)
     .then(family => {
-      if (!family) return res.status(404).json({ message: 'Families not found'})
+      if (!family) throw new Error('Not Found')
       return res.status(200).json(family)
     })
-    .catch(err => res.status(404).json(err))
+    .catch(next)
 }
 
 

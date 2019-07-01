@@ -6,9 +6,16 @@ class Login extends React.Component {
   constructor() {
     super()
 
-    this.state = { data: {}}
+    this.state = { data: {}, error: ''}
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleChange(e) {
+    const name = e.target.name
+    const value = e.target.value
+    const data = { ...this.state.data, [name]: value}
+    this.setState({ data, error: '' })
   }
 
   handleSubmit(e) {
@@ -20,15 +27,10 @@ class Login extends React.Component {
         Auth.setToken(res.data.token)
         this.props.history.push(`/families/${this.props.match.params.familyId}/announcements`)
       })
-      .catch(err => console.log(err.response))
+      .catch(() => this.setState({ error: 'Invalid Crendentials'}))
   }
 
-  handleChange(e) {
-    const name = e.target.name
-    const value = e.target.value
-    const data = { ...this.state.data, [name]: value}
-    this.setState({ data })
-  }
+
 
   render() {
     return(
@@ -41,7 +43,7 @@ class Login extends React.Component {
               <p className="control">
                 <label className="label">Email</label>
                 <input
-                  className="input"
+                  className={`input ${this.state.error ? 'is-danger' : ''}`}
                   type="email"
                   name="email"
                   placeholder="📧 Email"
@@ -53,7 +55,7 @@ class Login extends React.Component {
               <p className="control">
                 <label className="label">Password</label>
                 <input
-                  className="input"
+                  className={`input ${this.state.error ? 'is-danger' : ''}`}
                   type="password"
                   name="password"
                   placeholder="🔒 Password"
@@ -61,6 +63,7 @@ class Login extends React.Component {
                 />
               </p>
             </div>
+            {this.state.error && <small className="help is-danger">{this.state.error}</small>}
             <br />
             <div className="field">
               <p className="control">

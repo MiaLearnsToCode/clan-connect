@@ -1,3 +1,15 @@
+nav{
+  .logo{
+    font-size: 25px;
+    margin: 10px 15px;
+  }
+  .logout{
+    font-size: 25px;
+    margin: 10px 15px;
+    background-color: rgba(255,255,255, 0.1);
+    border-radius: 50%;
+  }
+}
 .hero {
   background-image: url("https://images.pexels.com/photos/1666467/pexels-photo-1666467.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
   background-size: contain;
@@ -8,7 +20,7 @@
 
 .section{
   min-height: 100vh;
-  background-color: rgba(0,0,0, 0.05);
+  background-color: rgba(0,0,0, 0.07);
 }
 
 .container {
@@ -19,6 +31,28 @@
   border: 3px solid white;
 }
 
+.chat-box {
+  padding: 50px 20px;
+  margin: 50px 300px;
+  background-color: rgba(255,255,255, 0.7);
+  border-radius: 20px;
+  border: 3px solid white;
+  .comment {
+    margin: 20px 20px 20px 300px;
+    padding: 20px;
+    text-align: right;
+    border-radius: 5px;
+    background: yellow;
+  }
+  .usercomment {
+    margin: 20px 300px 20px 20px;
+    padding: 20px;
+    text-align: left;
+    border-radius: 5px;
+    background: rgba(0,0,0, 0.05);
+  }
+}
+
 .post {
   display: flex;
   justify-content: center;
@@ -27,19 +61,23 @@
     padding:20px 400px 20px 10px;
   }
   .button {
-    margin: 2px 0px 0px 30px;
+    margin: 2px 0px 0px 20px;
   }
 }
+
+.send {
+  font-size: 20px;
+  padding: 10px;
+  border: 2px solid yellow;
+  border-radius: 70%;
+}
+
 .announcement {
   margin-top: 70px;
 }
 
-.comment {
-  margin: 20px;
-  padding: 30px;
-  border-radius: 5px;
-  background-image: linear-gradient(rgba(255, 56, 96, 0.05), rgba(255, 56, 96, 0.03));
-
+.message {
+  margin: 50px 350px;
 }
 
 .button.is-danger{

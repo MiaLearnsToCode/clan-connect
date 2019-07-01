@@ -1,19 +1,71 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
+import Auth from '../../lib/Auth'
 
-const Navbar = () => {
-  return(
-    <nav className="navbar is-danger" role="navigation" aria-label="main navigation">
+class Navbar extends React.Component {
+  constructor() {
+    super()
 
-      <div className="navbar-menu">
-        <div className="navbar-start">
-          <Link to="/" className="navbar-item">
+    this.state = {}
+    this.toggleNavbar = this.toggleNavbar.bind(this)
+    this.logout = this.logout.bind(this)
+  }
+
+  logout() {
+    Auth.logout()
+    this.props.history.push('/')
+  }
+
+  toggleNavbar() {
+    this.setState({ navbarOpen: !this.state.navbarOpen})
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.setState({ navbarOpen: false })
+    }
+  }
+
+  render() {
+    return (
+      <nav className="navbar is-danger" role="navigation" aria-label="main navigation">
+        <div className="navbar-brand">
+          <Link to="/" className="navbar-item logo">
             ClanConnect
           </Link>
+
+          <a role="button" className={`navbar-burger ${this.state.navbarOpen ? 'is-active' : ''}`} aria-label="menu" aria-expanded="false" onClick={this.toggleNavbar}>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
         </div>
-      </div>
-    </nav>
-  )
+        <div className={`navbar-menu ${this.state.navbarOpen ? 'is-active' : ''}`}>
+          <div className="navbar-end">
+            {Auth.isAuthenticated() &&
+              <div className="dropdown is-right is-hoverable">
+                <div className="dropdown-trigger">
+                  <button className="button logout" aria-haspopup="true" aria-controls="dropdown-menu4">
+                    <span className="icon is-large">
+                      🔓
+                    </span>
+                  </button>
+                </div>
+                <div className="dropdown-menu" id="dropdown-menu4" role="menu">
+                  <div className="dropdown-content">
+                    <div className="dropdown-item">
+                      <a className="navbar-item is-danger" onClick={this.logout}>Logout</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </nav>
+    )
+  }
 }
 
-export default Navbar
+
+export default withRouter(Navbar)

@@ -16,6 +16,9 @@ app.use(logger)
 const router = require('./config/router')
 app.use('/api', router)
 
+const errorHandler = require('./lib/errorHandler')
+app.use(errorHandler)
+
 app.get('/*', (req, res) => res.sendFile(`${__dirname}/dist/index.html`))
 
 app.listen(port, () => console.log(`App is listening on ${port} port`))

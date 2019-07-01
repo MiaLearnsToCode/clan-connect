@@ -55,53 +55,63 @@ class Show extends React.Component {
     return Auth.getPayload().user === this.state.announcement.user._id
   }
 
+  isOwnerComment(comment) {
+    return Auth.getPayload().user === comment.user._id
+  }
+
   render() {
     if (!this.state.announcement) return null
     return(
       <section className="section">
-        {this.state.announcement.user &&
-          <div>
-            <p className="subtitle is-3"> <strong>{this.state.announcement.user.username}</strong> said: </p>
-            <p className="subtitle is-4"> {this.state.announcement.text} </p>
-            <hr />
-            {this.state.announcement.comments.map(comment => {
-              return <div key={comment._id} className="comment">
-                <p className="subtitle is-5"> <strong>{comment.user.username}</strong>: {comment.text}</p>
-              </div>
-            })
-            }
-            <hr />
-            <form onSubmit={this.handleSubmit} className="post">
-              <div className="field">
-                <p className="control">
-                  <input
-                    className="input"
-                    name="text"
-                    placeholder="Leave a comment"
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </p>
-              </div>
-              <div className="field">
-                <p className="control">
-                  <button className="button is-danger" type="submit">
-                  Post
+        <div className="chat-box">
+          {this.state.announcement.user &&
+            <div>
+              <p className="subtitle is-3"> <strong>{this.state.announcement.user.username}</strong> said: </p>
+              <p className="subtitle is-4"> {this.state.announcement.text} </p>
+              <hr />
+              {this.state.announcement.comments.map(comment => {
+                return <div key={comment._id}>
+                  <div
+                    className={` ${this.isOwnerComment(comment) ? 'comment' : 'usercomment'} `}
+                  >
+                    <p className="subtitle is-5"> <strong>{comment.user.username}</strong>: {comment.text}</p>
+                  </div>
+                </div>
+              })
+              }
+              <hr />
+              <form onSubmit={this.handleSubmit} className="post">
+                <div className="field">
+                  <p className="control">
+                    <input
+                      className="input"
+                      name="text"
+                      placeholder="Reply"
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </p>
+                </div>
+                <div className="field">
+                  <p className="control">
+                    <button className="button send" type="submit">
+                    🏹
+                    </button>
+                  </p>
+                </div>
+              </form>
+              {this.isOwner() &&
+                <div>
+                  <button
+                    className="button is-danger"
+                    onClick={this.handleDelete}
+                  >Delete this converation
                   </button>
-                </p>
-              </div>
-            </form>
-            {this.isOwner() &&
-              <div>
-                <button
-                  className="button is-danger"
-                  onClick={this.handleDelete}
-                >Delete this converation
-                </button>
-              </div>
-            }
-          </div>
-        }
+                </div>
+              }
+            </div>
+          }
+        </div>
       </section>
     )
   }
