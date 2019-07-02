@@ -34,33 +34,26 @@ class Navbar extends React.Component {
             ClanConnect
           </Link>
 
-          <a role="button" className={`navbar-burger ${this.state.navbarOpen ? 'is-active' : ''}`} aria-label="menu" aria-expanded="false" onClick={this.toggleNavbar}>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
         </div>
-        <div className={`navbar-menu ${this.state.navbarOpen ? 'is-active' : ''}`}>
-          <div className="navbar-end">
-            {Auth.isAuthenticated() &&
-              <div className="dropdown is-right is-hoverable">
-                <div className="dropdown-trigger">
-                  <button className="button logout" aria-haspopup="true" aria-controls="dropdown-menu4">
-                    <span className="icon is-large">
-                      🔓
-                    </span>
-                  </button>
-                </div>
-                <div className="dropdown-menu" id="dropdown-menu4" role="menu">
-                  <div className="dropdown-content">
-                    <div className="dropdown-item">
-                      <a className="navbar-item is-danger" onClick={this.logout}>Logout</a>
-                    </div>
+        <div className="navbar-end">
+          {Auth.isAuthenticated() &&
+            <div className="dropdown is-right is-hoverable">
+              <div className="dropdown-trigger">
+                <button className="button logout" aria-haspopup="true" aria-controls="dropdown-menu4">
+                  <span className="icon is-large">
+                    🔓
+                  </span>
+                </button>
+              </div>
+              <div className="dropdown-menu" id="dropdown-menu4" role="menu">
+                <div className="dropdown-content">
+                  <div className="dropdown-item">
+                    <a className="navbar-item is-danger" onClick={this.logout}>Logout</a>
                   </div>
                 </div>
               </div>
-            }
-          </div>
+            </div>
+          }
         </div>
       </nav>
     )

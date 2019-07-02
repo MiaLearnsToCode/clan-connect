@@ -45,37 +45,42 @@ class Indexannouncements extends React.Component {
     const dateA = new Date(a.updatedAt)
     const dateB = new Date(b.updatedAt)
     return dateB - dateA
-
   }
 
   render() {
     return(
-      <section className="section">
-        <h2 className="title is-3">Chat with the clan</h2>
-        <form onSubmit={this.handleSubmit} className="post">
-          <div className="field">
-            <p className="control">
-              <input
-                className="input"
-                name="text"
-                placeholder="Share something"
-                value = {this.state.value}
-                onChange={this.handleChange}
-              />
-            </p>
+      <section className="section index">
+        <div className="columns is-mobile is-multiline">
+          <div className="column is-full-mobile is-full-tablet is-one-fifth-desktop"></div>
+          <div className="column container is-full-mobile is-full-tablet is-three-fifths-desktop homepage-content">
+            <h2 className="title is-3">Chat with the clan</h2>
+            <form onSubmit={this.handleSubmit} className="post">
+              <div className="field">
+                <p className="control">
+                  <input
+                    className="input"
+                    name="text"
+                    placeholder="Share something"
+                    value = {this.state.value}
+                    onChange={this.handleChange}
+                  />
+                </p>
+              </div>
+              <div className="field">
+                <p className="control">
+                  <button className="button is-danger" type="submit">
+                  Post
+                  </button>
+                </p>
+              </div>
+            </form>
+            {this.state.announcements.sort(this.compareDates) && this.state.announcements.map(announcement => {
+              return <Announcement key={announcement._id} {...announcement} />
+            })
+            }
           </div>
-          <div className="field">
-            <p className="control">
-              <button className="button is-danger" type="submit">
-              Post
-              </button>
-            </p>
-          </div>
-        </form>
-        {this.state.announcements.sort(this.compareDates) && this.state.announcements.map(announcement => {
-          return <Announcement key={announcement._id} {...announcement} />
-        })
-        }
+          <div className="column is-full-mobile is-full-tablet is-one-fifth-desktop"></div>
+        </div>
       </section>
     )
   }

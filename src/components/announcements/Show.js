@@ -72,9 +72,11 @@ class Show extends React.Component {
   render() {
     if (!this.state.announcement) return null
     return(
-      <section className="section">
-        <div className="chat-box">
-          {this.state.announcement.user &&
+      <section className="section show">
+        <div className="columns is-mobile is-multiline">
+          <div className="column is-full-mobile is-full-tablet is-one-fifth-desktop"></div>
+          <div className="column container chat-box is-full-mobile is-full-tablet is-three-fifths-desktop homepage-content">
+            {this.state.announcement.user &&
             <div>
               <p className="subtitle is-3"> <strong>{this.state.announcement.user.username}</strong> said: </p>
               <p className="subtitle is-4"> {this.state.announcement.text} </p>
@@ -131,7 +133,9 @@ class Show extends React.Component {
                 </div>
               }
             </div>
-          }
+            }
+          </div>
+          <div className="column is-full-mobile is-full-tablet is-one-fifth-desktop"></div>
         </div>
       </section>
     )

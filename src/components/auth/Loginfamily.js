@@ -50,7 +50,7 @@ class Login extends React.Component {
             <br />
             <div className="field">
               <p className="control">
-                <button className="button is-danger" type="submit">
+                <button className="button is-medium is-danger" type="submit">
                 Login
                 </button>
               </p>

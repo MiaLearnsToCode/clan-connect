@@ -12,7 +12,7 @@ const Announcement = ({text, user, comments, _id, createdAt}) => {
         <p>{comments.length} messages in this chat</p>
         <hr />
         <div className="has-text-centered">
-          <Link to={`/families/${user.family}/announcements/${_id}`} className="button is-danger"> Join this conversation </Link>
+          <Link to={`/families/${user.family}/announcements/${_id}`} className="button is-medium is-danger"> Join this conversation </Link>
         </div>
       </div>
     </article>

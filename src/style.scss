@@ -1,4 +1,7 @@
 nav{
+  display: flex;
+  justify-content: space-between;
+  padding-right: 20px;
   .logo{
     font-size: 25px;
     margin: 10px 15px;
@@ -9,13 +12,45 @@ nav{
     background-color: rgba(255,255,255, 0.1);
     border-radius: 50%;
   }
+
 }
-.hero {
+
+.homepage {
   background-image: url("https://images.pexels.com/photos/1666467/pexels-photo-1666467.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
-  background-size: contain;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 20px;
   h1, h2, a {
     margin: 20px 0px;
   }
+  .homepage-content{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.index {
+  background-image: url("https://images.pexels.com/photos/1054974/pexels-photo-1054974.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.show {
+  background-image: url("https://images.pexels.com/photos/1631918/pexels-photo-1631918.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.button.is-medium{
+  margin-top: 10px;
 }
 
 .section{
@@ -25,32 +60,29 @@ nav{
 
 .container {
   padding: 50px 20px;
-  margin: 0px 100px;
   background-color: rgba(255,255,255, 0.7);
+  box-shadow: 0px 5px 10px 10px rgba(0,0,0, 0.1);
   border-radius: 20px;
   border: 3px solid white;
 }
 
 .chat-box {
-  padding: 50px 20px;
-  margin: 50px 300px;
-  background-color: rgba(255,255,255, 0.7);
-  border-radius: 20px;
-  border: 3px solid white;
   .comment {
-    margin: 20px 20px 20px 300px;
+    margin: 20px 20px 20px 40%;
     padding: 20px;
     text-align: right;
     border-radius: 5px;
     background: yellow;
+    box-shadow: 0px 2px 5px 5px rgba(0,0,0, 0.05);
     display: flex;
   }
   .usercomment {
-    margin: 20px 300px 20px 20px;
+    margin: 20px 40% 20px 20px;
     padding: 20px;
     text-align: left;
     border-radius: 5px;
-    background: rgba(0,0,0, 0.05);
+    box-shadow: 0px 2px 5px 5px rgba(0,0,0, 0.05);
+    background: rgb(204,204,204);
     display: flex;
   }
   .like-content{
@@ -74,10 +106,11 @@ nav{
   justify-content: center;
   margin: 50px 20px;
   input {
-    padding:20px 400px 20px 10px;
+    margin-top: 5px;
+    width:400px;
   }
   .button {
-    margin: 2px 0px 0px 20px;
+    margin: 5px 0px 0px 20px;
   }
 }
 
@@ -86,6 +119,7 @@ nav{
   padding: 10px;
   border: 2px solid yellow;
   border-radius: 70%;
+  margin: 2px 0px 0px 20px;
 }
 
 .announcement {
@@ -93,7 +127,7 @@ nav{
 }
 
 .message {
-  margin: 50px 350px;
+  margin: 60px 0px;
 }
 
 .button.is-danger{
