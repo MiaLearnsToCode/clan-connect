@@ -10,6 +10,7 @@ class Show extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
+    this.addLike = this.addLike.bind(this)
   }
 
   componentDidMount() {
@@ -21,6 +22,15 @@ class Show extends React.Component {
       headers: { Authorization: `Bearer ${Auth.getToken()}` }
     })
       .then(res => this.setState({announcement: res.data}))
+      .catch(err => console.log(err))
+  }
+
+  addLike(comment) {
+    axios.post(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}/likes`, comment ,{
+      headers: { Authorization: `Bearer ${Auth.getToken()}` }
+    })
+      .then(console.log(comment))
+      .then(() => this.getAnnouncement())
       .then(() => console.log(this.state))
       .catch(err => console.log(err))
   }
@@ -71,11 +81,22 @@ class Show extends React.Component {
               <hr />
               {this.state.announcement.comments.map(comment => {
                 return <div key={comment._id}>
+
                   <div
                     className={` ${this.isOwnerComment(comment) ? 'comment' : 'usercomment'} `}
                   >
                     <p className="subtitle is-5"> <strong>{comment.user.username}</strong>: {comment.text}</p>
                   </div>
+                  {!this.isOwnerComment(comment) &&
+                    <div className="like-content">
+                      <button
+                        className="button like"
+                        onClick={() => this.addLike(comment)}
+                      >💛
+                      </button>
+                      <span className="like-count">{comment.likeCount}</span>
+                    </div>
+                  }
                 </div>
               })
               }

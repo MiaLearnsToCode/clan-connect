@@ -43,6 +43,7 @@ nav{
     text-align: right;
     border-radius: 5px;
     background: yellow;
+    display: flex;
   }
   .usercomment {
     margin: 20px 300px 20px 20px;
@@ -50,6 +51,21 @@ nav{
     text-align: left;
     border-radius: 5px;
     background: rgba(0,0,0, 0.05);
+    display: flex;
+  }
+  .like-content{
+    display: flex;
+    align-items: center;
+    padding-bottom: 25px;
+  }
+  .like{
+    font-size: 20px;
+    padding: 10px;
+    border: 2px solid yellow;
+    border-radius: 70%;
+  }
+  .like-count{
+    margin-left: 15px;
   }
 }
 

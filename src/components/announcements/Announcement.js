@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Announcement = ({text, user, comments, _id}) => {
+const Announcement = ({text, user, comments, _id, createdAt}) => {
   return(
     <article className="message">
       <div className="message-header">
         <p>{user.username}: {text}</p>
+        {new Date(createdAt).toLocaleString()}
       </div>
       <div className="message-body">
         <p>{comments.length} messages in this chat</p>

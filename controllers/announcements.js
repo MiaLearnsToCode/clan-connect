@@ -122,4 +122,24 @@ function deleteComment(req, res, next) {
     .catch(next)
 }
 
-module.exports = { create, index, show, update, destroy, createComment, deleteComment}
+function createLike(req, res, next) {
+  req.body.family = req.currentFamily
+  req.body.user = req.currentUser
+  Announcement
+    .findById(req.params.id)
+    .populate('user')
+    .populate('comments.user')
+    .then(announcement => {
+      announcement.comments.map(comment => {
+        if (!comment) throw new Error('Not Found')
+        if (!comment.family.equals(req.currentFamily)) throw new Error('Unauthorized')
+        if (comment.likes.some(like => like.user.equals(req.currentUser))) return comment
+        if (comment._id.equals(req.body._id)) return comment.likes.push({user: req.currentUser})
+      })
+      return announcement.save()
+    })
+    .then(comment => res.status(200).json(comment))
+    .catch(next)
+}
+
+module.exports = { create, index, show, update, destroy, createComment, deleteComment, createLike}

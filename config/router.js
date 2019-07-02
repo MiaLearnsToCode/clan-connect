@@ -13,6 +13,9 @@ router.route('/families/:familyId/announcements/:id/comments/:commentId')
 router.route('/families/:familyId/announcements/:id/comments')
   .post(secureFamily, secureUser, announcements.createComment)
 
+router.route('/families/:familyId/announcements/:id/likes')
+  .post(secureFamily, secureUser, announcements.createLike)
+
 router.route('/families/:familyId/announcements/:id')
   .get(secureFamily, secureUser, announcements.show)
   .put(secureFamily, secureUser, announcements.update)
