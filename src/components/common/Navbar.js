@@ -17,7 +17,7 @@ class Navbar extends React.Component {
   }
 
   toggleNavbar() {
-    this.setState({ navbarOpen: !this.state.navbarOpen})
+    this.setState({ navbarOpen: !this.state.navbarOpen })
   }
 
   componentDidUpdate(prevProps) {
@@ -28,9 +28,9 @@ class Navbar extends React.Component {
 
   render() {
     return (
-      <nav className="navbar is-danger" role="navigation" aria-label="main navigation">
+      <nav role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
-          <Link to="/" className="navbar-item logo">
+          <Link to="/" className="navbar-item logo white-text">
             ClanConnect
           </Link>
 
@@ -48,7 +48,7 @@ class Navbar extends React.Component {
               <div className="dropdown-menu" id="dropdown-menu4" role="menu">
                 <div className="dropdown-content">
                   <div className="dropdown-item">
-                    <a className="navbar-item is-danger" onClick={this.logout}>Logout</a>
+                    <a className="navbar-item" onClick={this.logout}>Logout</a>
                   </div>
                 </div>
               </div>

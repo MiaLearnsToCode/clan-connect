@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Homepage = () => {
-  return(
+  return (
     <section className="homepage is-fullheight-with-navbar">
       <div className="columns is-mobile is-multiline">
         <div className="column is-full-mobile is-full-tablet is-one-fifth-desktop"></div>
@@ -15,10 +15,10 @@ const Homepage = () => {
             <h2 className="subtitle is-3">The platform that allows families to connect</h2>
           </div>
           <div>
-            <Link to="/registerfamily" className="button is-medium is-danger">
+            <Link to="/registerfamily" className="button is-medium">
               Create a new clan
             </Link>
-            <Link to="/loginfamily" className="button is-medium is-danger">
+            <Link to="/loginfamily" className="button is-medium">
               Join an existing clan
             </Link>
           </div>

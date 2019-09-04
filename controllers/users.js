@@ -21,7 +21,7 @@ function loginUser(req, res, next) {
       console.log(user.family)
       if (!user.family.equals(req.params.familyId)) throw new Error('Unauthorized')
       if (!user || !user.validatePassword(req.body.password)) throw new Error('Unauthorized')
-      const token = jwt.sign({ user: user._id, family: user.family}, secret, { expiresIn: '5h'})
+      const token = jwt.sign( { user: user._id, family: user.family }, secret, { expiresIn: '5h' } )
       res.status(200).json({ message: `Welcome back ${user.username}`, token })
     })
     .catch(next)

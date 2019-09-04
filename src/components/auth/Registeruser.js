@@ -6,7 +6,7 @@ class Registeruser extends React.Component {
   constructor() {
     super()
 
-    this.state = { data: {}, errors: {}}
+    this.state = { data: {}, errors: {} }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -14,8 +14,8 @@ class Registeruser extends React.Component {
   handleChange(e) {
     const name = e.target.name
     const value = e.target.value
-    const data = { ...this.state.data, [name]: value}
-    const errors = {...this.state.errors, [name]: ''}
+    const data = { ...this.state.data, [name]: value }
+    const errors = { ...this.state.errors, [name]: '' }
     this.setState({ data, errors })
   }
 
@@ -31,7 +31,7 @@ class Registeruser extends React.Component {
 
 
   render() {
-    return(
+    return (
       <section className="section">
         <div className="container">
           <h1 className="title is-3">Create your new account</h1>
@@ -91,7 +91,7 @@ class Registeruser extends React.Component {
             <br />
             <div className="field">
               <p className="control">
-                <button className="button is-danger" type="submit">
+                <button className="button" type="submit">
                 Register
                 </button>
               </p>

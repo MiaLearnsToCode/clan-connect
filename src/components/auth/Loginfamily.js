@@ -18,18 +18,18 @@ class Login extends React.Component {
         Auth.setToken(res.data.token)
         this.props.history.push(`/families/${res.data.family._id}`)
       })
-      .catch(() => this.setState({ error: 'Clan not found'}))
+      .catch(() => this.setState({ error: 'Clan not found' }))
   }
 
   handleChange(e) {
     const name = e.target.name
     const value = e.target.value
-    const data = { ...this.state.data, [name]: value}
+    const data = { ...this.state.data, [name]: value }
     this.setState({ data, error: '' })
   }
 
   render() {
-    return(
+    return (
       <main className="section">
         <div className="container">
           <h1 className="title is-3">Join in an existing clan</h1>
@@ -50,7 +50,7 @@ class Login extends React.Component {
             <br />
             <div className="field">
               <p className="control">
-                <button className="button is-medium is-danger" type="submit">
+                <button className="button is-medium" type="submit">
                 Login
                 </button>
               </p>

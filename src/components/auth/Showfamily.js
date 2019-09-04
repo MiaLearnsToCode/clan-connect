@@ -1,12 +1,12 @@
 import React from 'react'
 import axios from 'axios'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Auth from '../../lib/Auth'
 
 class Showfamily extends React.Component {
   constructor() {
     super()
-    this.state = { family: {}}
+    this.state = { family: {} }
   }
 
   componentDidMount() {
@@ -18,8 +18,8 @@ class Showfamily extends React.Component {
   }
 
   render() {
-    if(!this.state.family) return null
-    return(
+    if (!this.state.family) return null
+    return (
       <section className="section is-fullheight-with-navbar">
         <div className="has-text-centered">
           <div className="container">
@@ -30,10 +30,10 @@ class Showfamily extends React.Component {
              Would you like to:
             </h2>
             <br />
-            <Link to={`/families/${this.state.family._id}/register`} className="button is-medium is-danger">
+            <Link to={`/families/${this.state.family._id}/register`} className="button is-medium">
               Register an account
             </Link>
-            <Link to={`/families/${this.state.family._id}/login`} className="button is-medium is-danger">
+            <Link to={`/families/${this.state.family._id}/login`} className="button is-medium">
               Login to your account
             </Link>
 

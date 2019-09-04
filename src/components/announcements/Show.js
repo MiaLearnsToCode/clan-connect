@@ -6,7 +6,7 @@ class Show extends React.Component {
   constructor() {
     super()
 
-    this.state = { announcement: {}, name: '', value: ''}
+    this.state = { announcement: {}, name: '', value: '', users: [] }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
@@ -21,7 +21,7 @@ class Show extends React.Component {
     axios.get(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}`, {
       headers: { Authorization: `Bearer ${Auth.getToken()}` }
     })
-      .then(res => this.setState({announcement: res.data}))
+      .then(res => this.setState({ announcement: res.data }))
       .catch(err => console.log(err))
   }
 
@@ -38,18 +38,18 @@ class Show extends React.Component {
   handleChange(e) {
     const name = e.target.name
     const value = e.target.value
-    this.setState({name, value})
+    this.setState({ name, value })
     console.log(this.state.announcement.comments[0])
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    const newComment = {[this.state.name]: this.state.value}
+    const newComment = { [this.state.name]: this.state.value }
     axios.post(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}/comments`, newComment, {
       headers: { Authorization: `Bearer ${Auth.getToken()}` }
     })
       .then(() => this.getAnnouncement())
-      .then(() => this.setState({name: '', value: ''}))
+      .then(() => this.setState({ name: '', value: '' }))
       .catch(err => console.log(err.response))
   }
 
@@ -59,6 +59,14 @@ class Show extends React.Component {
     })
       .then(() => this.props.history.push(`/families/${this.state.announcement.family}/announcements`))
       .catch(err => console.log(err.response))
+  }
+
+  userArray() {
+    const arrayUsers = this.state.announcement.comments.map(comment => {
+      return comment.user.username
+    })
+    const uniqueArrayUsers = [...new Set(arrayUsers)]
+    return uniqueArrayUsers
   }
 
   isOwner() {
@@ -71,30 +79,38 @@ class Show extends React.Component {
 
   render() {
     if (!this.state.announcement) return null
-    return(
+    return (
       <section className="section show">
         <div className="columns is-mobile is-multiline">
           <div className="column is-full-mobile is-full-tablet is-one-fifth-desktop"></div>
           <div className="column container chat-box is-full-mobile is-full-tablet is-three-fifths-desktop homepage-content">
             {this.state.announcement.user &&
             <div>
+              <div className="announcement-users">
+                <p className="subtitle is-4">Users who are part of this conversation:</p>
+                <br />
+                {
+                  this.userArray().map(username => {
+                    return <span key={username}>{username}</span>
+                  })
+                }
+              </div>
               <p className="subtitle is-3"> <strong>{this.state.announcement.user.username}</strong> said: </p>
               <p className="subtitle is-4"> {this.state.announcement.text} </p>
               <hr />
               {this.state.announcement.comments.map(comment => {
                 return <div key={comment._id}>
-
-                  <div
-                    className={` ${this.isOwnerComment(comment) ? 'comment' : 'usercomment'} `}
-                  >
+                  
+                  <div className={` ${this.isOwnerComment(comment) ? 'comment' : 'usercomment'} `} >
                     <p className="subtitle is-5"> <strong>{comment.user.username}</strong>: {comment.text}</p>
                   </div>
+                  
                   {!this.isOwnerComment(comment) &&
                     <div className="like-content">
                       <button
                         className="button like"
                         onClick={() => this.addLike(comment)}
-                      >💛
+                      > 💚
                       </button>
                       <span className="like-count">{comment.likeCount}</span>
                     </div>
@@ -126,7 +142,7 @@ class Show extends React.Component {
               {this.isOwner() &&
                 <div>
                   <button
-                    className="button is-danger"
+                    className="button"
                     onClick={this.handleDelete}
                   >Delete this converation
                   </button>
@@ -144,9 +160,3 @@ class Show extends React.Component {
 
 export default Show
 
-
-// axios.delete(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}`, {
-//   headers: { Authorization: `Bearer ${Auth.getToken()}` }
-// })
-//   .then(() => this.props.history.push(`/families/${this.state.announcement.family}/announcements`))
-//   .catch(err => console.log(err.response))

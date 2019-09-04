@@ -14,18 +14,18 @@ class Register extends React.Component {
     e.preventDefault()
     axios.post('/api/registerfamily', this.state.data)
       .then(() => this.props.history.push('/loginfamily'))
-      .catch(() => this.setState({ error: 'Clan already exists, try a different name'}))
+      .catch(() => this.setState({ error: 'Clan already exists, try a different name' }))
   }
 
   handleChange(e) {
     const name = e.target.name
     const value = e.target.value
-    const data = { ...this.state.data, [name]: value}
+    const data = { ...this.state.data, [name]: value }
     this.setState({ data, error: ''  })
   }
 
   render() {
-    return(
+    return (
       <section className="section">
         <div className="container">
           <h1 className="title is-3">Create a new clan</h1>
@@ -46,7 +46,7 @@ class Register extends React.Component {
             <br/>
             <div className="field">
               <p className="control">
-                <button className="button is-medium is-danger" type="submit">
+                <button className="button is-medium" type="submit">
                 Register
                 </button>
               </p>

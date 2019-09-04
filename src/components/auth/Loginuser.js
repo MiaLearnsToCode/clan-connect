@@ -6,7 +6,7 @@ class Login extends React.Component {
   constructor() {
     super()
 
-    this.state = { data: {}, error: ''}
+    this.state = { data: {}, error: '' }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -14,7 +14,7 @@ class Login extends React.Component {
   handleChange(e) {
     const name = e.target.name
     const value = e.target.value
-    const data = { ...this.state.data, [name]: value}
+    const data = { ...this.state.data, [name]: value }
     this.setState({ data, error: '' })
   }
 
@@ -27,13 +27,13 @@ class Login extends React.Component {
         Auth.setToken(res.data.token)
         this.props.history.push(`/families/${this.props.match.params.familyId}/announcements`)
       })
-      .catch(() => this.setState({ error: 'Invalid Crendentials'}))
+      .catch(() => this.setState({ error: 'Invalid Crendentials' }))
   }
 
 
 
   render() {
-    return(
+    return (
       <main className="section">
         <div className="container">
           <h1 className="title is-3">Login to your existing account</h1>
@@ -67,7 +67,7 @@ class Login extends React.Component {
             <br />
             <div className="field">
               <p className="control">
-                <button className="button is-danger" type="submit">
+                <button className="button" type="submit">
                 Login
                 </button>
               </p>

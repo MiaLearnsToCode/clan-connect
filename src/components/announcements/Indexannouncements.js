@@ -7,7 +7,7 @@ class Indexannouncements extends React.Component {
   constructor() {
     super()
 
-    this.state = { announcements: [], name: '', value: ''}
+    this.state = { announcements: [], name: '', value: '' }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -27,17 +27,17 @@ class Indexannouncements extends React.Component {
   handleChange(e) {
     const name = e.target.name
     const value = e.target.value
-    this.setState({name, value})
+    this.setState({ name, value })
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    const newPost = {[this.state.name]: this.state.value}
+    const newPost = { [this.state.name]: this.state.value }
     axios.post(`/api/families/${this.props.match.params.familyId}/announcements`, newPost, {
       headers: { Authorization: `Bearer ${Auth.getToken()}` }
     })
       .then(() => this.getAnnouncements())
-      .then(() => this.setState({name: '', value: ''}))
+      .then(() => this.setState({ name: '', value: '' }))
       .catch(err => console.log(err.response))
   }
 
@@ -48,10 +48,12 @@ class Indexannouncements extends React.Component {
   }
 
   render() {
-    return(
+    return (
       <section className="section index">
         <div className="columns is-mobile is-multiline">
-          <div className="column is-full-mobile is-full-tablet is-one-fifth-desktop"></div>
+          <div className="column is-full-mobile is-full-tablet is-one-fifth-desktop">
+            
+          </div>
           <div className="column container is-full-mobile is-full-tablet is-three-fifths-desktop homepage-content">
             <h2 className="title is-3">Chat with the clan</h2>
             <form onSubmit={this.handleSubmit} className="post">
@@ -68,7 +70,7 @@ class Indexannouncements extends React.Component {
               </div>
               <div className="field">
                 <p className="control">
-                  <button className="button is-danger" type="submit">
+                  <button className="button" type="submit">
                   Post
                   </button>
                 </p>
