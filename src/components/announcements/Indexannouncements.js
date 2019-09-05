@@ -21,7 +21,7 @@ class Indexannouncements extends React.Component {
       headers: { Authorization: `Bearer ${Auth.getToken()}` }
     })
       .then(res => this.setState({ announcements: res.data }))
-      .catch(err => console.log(err))
+      .catch(() => this.props.history.push('/error'))
   }
 
   handleChange(e) {
@@ -38,7 +38,7 @@ class Indexannouncements extends React.Component {
     })
       .then(() => this.getAnnouncements())
       .then(() => this.setState({ name: '', value: '' }))
-      .catch(err => console.log(err.response))
+      .catch(() => this.props.history.push('/error'))
   }
 
   compareDates(a,b) {

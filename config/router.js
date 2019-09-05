@@ -5,11 +5,6 @@ const families = require('../controllers/families')
 const secureUser = require('../lib/secureUser')
 const secureFamily = require('../lib/secureFamily')
 
-// delete a comment
-router.route('/families/:familyId/announcements/:id/comments/:commentId')
-  .delete(secureFamily, secureUser, announcements.deleteComment)
-
-// post a comment
 router.route('/families/:familyId/announcements/:id/comments')
   .post(secureFamily, secureUser, announcements.createComment)
 
@@ -18,7 +13,6 @@ router.route('/families/:familyId/announcements/:id/likes')
 
 router.route('/families/:familyId/announcements/:id')
   .get(secureFamily, secureUser, announcements.show)
-  .put(secureFamily, secureUser, announcements.update)
   .delete(secureFamily, secureUser, announcements.destroy)
 
 router.route('/families/:familyId/announcements')
@@ -34,9 +28,6 @@ router.route('/families/:familyId/login')
 router.route('/families/:familyId')
   .get(families.showFamily)
 
-router.route('/families')
-  .get(families.indexFamilies)
-
 router.route('/loginfamily')
   .post(families.loginFamily)
 
@@ -44,6 +35,6 @@ router.route('/registerfamily')
   .post(families.registerFamily)
 
 router.route('/*')
-  .all((req, res) => res.status(404).json({ message: 'Wrong URL for the API'}))
+  .all((req, res) => res.status(404).json({ message: 'Wrong URL for the API' }))
 
 module.exports = router

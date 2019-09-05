@@ -14,7 +14,7 @@ class Showfamily extends React.Component {
       headers: { Authorization: `Bearer ${Auth.getToken()}` }
     })
       .then(res => this.setState({ family: res.data }))
-      .catch(err => console.log(err))
+      .catch(() => this.props.history.push('/error'))
   }
 
   render() {

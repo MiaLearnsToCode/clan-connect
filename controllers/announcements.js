@@ -46,25 +46,6 @@ function show(req, res, next) {
     .catch(next)
 }
 
-// update
-function update(req, res, next) {
-  req.body.family = req.currentFamily
-  req.body.user = req.currentUser
-  Announcement
-    .findById(req.params.id)
-    .populate('user')
-    .populate('comments.user')
-    .then(announcement => {
-      if (!announcement.family.equals(req.currentFamily)) throw new Error('Unauthorized')
-      if (!announcement.user.equals(req.currentUser)) throw new Error('Unauthorized')
-      if (!announcement) throw new Error('Not Found')
-      Object.assign(announcement, req.body)
-      return announcement.save()
-    })
-    .then(announcement => res.status(202).json(announcement))
-    .catch(next)
-}
-
 // destroy
 function destroy(req, res, next){
   req.body.family = req.currentFamily
@@ -79,7 +60,7 @@ function destroy(req, res, next){
       if (!announcement) throw new Error('Not Found')
       return announcement.remove()
     })
-    .then(() => res.status(200).json({message: 'Announcement was deleted successfully'}))
+    .then(() => res.status(200).json({ message: 'Announcement was deleted successfully' }))
     .catch(next)
 }
 
@@ -102,26 +83,6 @@ function createComment(req, res, next) {
     .catch(next)
 }
 
-// Delete: very similar to create but you remove the comment instead of push it (plus need to identify the comment using its id)
-function deleteComment(req, res, next) {
-  req.body.family = req.currentFamily
-  req.body.user = req.currentUser
-  Announcement
-    .findById(req.params.id)
-    .populate('user')
-    .populate('comments.user')
-    .then(announcement => {
-      if (!announcement.family.equals(req.currentFamily)) throw new Error('Unauthorized')
-      if (!announcement.user.equals(req.currentUser)) throw new Error('Unauthorized')
-      if (!announcement) throw new Error('Not Found')
-      const comment = announcement.comments.id(req.params.commentId)
-      comment.remove()
-      return announcement.save()
-    })
-    .then(() => res.status(200).json({message: 'Comment was deleted successfully'}))
-    .catch(next)
-}
-
 function createLike(req, res, next) {
   req.body.family = req.currentFamily
   req.body.user = req.currentUser
@@ -133,8 +94,8 @@ function createLike(req, res, next) {
       announcement.comments.map(comment => {
         if (!comment) throw new Error('Not Found')
         if (!comment.family.equals(req.currentFamily)) throw new Error('Unauthorized')
-        if (comment.likes.some(like => like.user.equals(req.currentUser))) return comment
-        if (comment._id.equals(req.body._id)) return comment.likes.push({user: req.currentUser})
+        if (comment.likes.some(like => like.user._id.equals(req.currentUser._id))) return comment
+        if (comment._id.equals(req.body._id)) return comment.likes.push({ user: req.currentUser })
       })
       return announcement.save()
     })
@@ -142,4 +103,4 @@ function createLike(req, res, next) {
     .catch(next)
 }
 
-module.exports = { create, index, show, update, destroy, createComment, deleteComment, createLike}
+module.exports = { create, index, show, destroy, createComment, createLike }

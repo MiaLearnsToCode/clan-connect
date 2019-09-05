@@ -43,20 +43,6 @@ const announcementSchema = new mongoose.Schema({
   timestamps: true
 })
 
-commentSchema
-  .virtual('likeCount')
-  .get(function() {
-    return this.likes.length
-  })
-
-commentSchema.set('toJSON', {
-  virtuals: true,
-  transform(doc, json) {
-    delete json.likes
-    return json
-  }
-})
-
 announcementSchema.plugin(require('mongoose-unique-validator'))
 
 module.exports = mongoose.model('Announcement', announcementSchema)

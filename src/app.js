@@ -8,6 +8,7 @@ import './style.scss'
 import Navbar from './components/common/Navbar'
 import Homepage from './components/common/Homepage'
 import Footer from './components/common/Footer'
+import Error from './components/common/Error'
 
 import Registerfamily from './components/auth/Registerfamily'
 import Loginfamily from './components/auth/Loginfamily'
@@ -33,7 +34,9 @@ class App extends React.Component {
             <Route path="/families/:familyId" component={Showfamily}/>
             <Route path="/loginfamily" component={Loginfamily}/>
             <Route path="/registerfamily" component={Registerfamily}/>
+            <Route path='/error' component={Error} /> 
             <Route exact path="/" component={Homepage}/>
+            <Route path='/*' component={Error} /> 
           </Switch>
           <Footer />
         </main>

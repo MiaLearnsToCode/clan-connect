@@ -7,27 +7,17 @@ const { secret } = require('../config/environment')
 function registerFamily(req, res,next) {
   Family
     .create(req.body)
-    .then(family => res.status(201).json({ message: `You created the ${family.family} family`}))
+    .then(family => res.status(201).json({ message: `You created the ${family.family} family` }))
     .catch(next)
 }
 
 function loginFamily(req, res,next) {
   Family
-    .findOne({ family: req.body.family})
+    .findOne({ family: req.body.family })
     .then(family => {
       if (!family) throw new Error('Not Found')
-      const token = jwt.sign({ family: family._id }, secret, { expiresIn: '5h'})
+      const token = jwt.sign({ family: family._id }, secret, { expiresIn: '5h' })
       res.status(200).json({ family, token })
-    })
-    .catch(next)
-}
-
-function indexFamilies(req,res,next) {
-  Family
-    .find()
-    .then(families => {
-      if (!families) throw new Error('Not Found')
-      return res.status(200).json(families)
     })
     .catch(next)
 }
@@ -43,4 +33,4 @@ function showFamily(req,res,next) {
 }
 
 
-module.exports = { registerFamily, loginFamily, indexFamilies, showFamily }
+module.exports = { registerFamily, loginFamily, showFamily }

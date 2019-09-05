@@ -22,24 +22,21 @@ class Show extends React.Component {
       headers: { Authorization: `Bearer ${Auth.getToken()}` }
     })
       .then(res => this.setState({ announcement: res.data }))
-      .catch(err => console.log(err))
+      .catch(() => this.props.history.push('/error'))
   }
 
   addLike(comment) {
     axios.post(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}/likes`, comment ,{
       headers: { Authorization: `Bearer ${Auth.getToken()}` }
     })
-      .then(console.log(comment))
       .then(() => this.getAnnouncement())
-      .then(() => console.log(this.state))
-      .catch(err => console.log(err))
+      .catch(() => this.props.history.push('/error'))
   }
 
   handleChange(e) {
     const name = e.target.name
     const value = e.target.value
     this.setState({ name, value })
-    console.log(this.state.announcement.comments[0])
   }
 
   handleSubmit(e) {
@@ -50,15 +47,15 @@ class Show extends React.Component {
     })
       .then(() => this.getAnnouncement())
       .then(() => this.setState({ name: '', value: '' }))
-      .catch(err => console.log(err.response))
+      .catch(() => this.props.history.push('/error'))
   }
 
   handleDelete() {
-    axios.delete(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}/comments/`, {
+    axios.delete(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}`, {
       headers: { Authorization: `Bearer ${Auth.getToken()}` }
     })
       .then(() => this.props.history.push(`/families/${this.state.announcement.family}/announcements`))
-      .catch(err => console.log(err.response))
+      .catch(() => this.props.history.push('/error'))
   }
 
   userArray() {
@@ -112,7 +109,7 @@ class Show extends React.Component {
                         onClick={() => this.addLike(comment)}
                       > 💚
                       </button>
-                      <span className="like-count">{comment.likeCount}</span>
+                      <span className="like-count">{comment.likes.length}</span>
                     </div>
                   }
                 </div>
