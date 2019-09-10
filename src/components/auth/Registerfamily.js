@@ -10,16 +10,17 @@ class Register extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit(e) {
+  handleSubmit = async (e) => {
     e.preventDefault()
-    axios.post('/api/registerfamily', this.state.data)
-      .then(() => this.props.history.push('/loginfamily'))
-      .catch(() => this.setState({ error: 'Clan already exists, try a different name' }))
+    try {
+      await axios.post('/api/registerfamily', this.state.data)
+      this.props.history.push('/loginfamily')
+    } catch {
+      this.setState({ error: 'Clan already exists, try a different name' })
+    }
   }
 
-  handleChange(e) {
-    const name = e.target.name
-    const value = e.target.value
+  handleChange({ target: { name, value } }) {
     const data = { ...this.state.data, [name]: value }
     this.setState({ data, error: ''  })
   }

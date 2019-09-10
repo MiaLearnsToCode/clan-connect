@@ -27,9 +27,7 @@ class Indexannouncements extends React.Component {
     this.getAnnouncements()
   }
 
-  handleChange(e) {
-    const name = e.target.name
-    const value = e.target.value
+  handleChange({ target: { name, value } }) {
     this.setState({ name, value })
   }
 

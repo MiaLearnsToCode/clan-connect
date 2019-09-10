@@ -11,19 +11,18 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit(e) {
+  handleSubmit = async (e) => {
     e.preventDefault()
-    axios.post('/api/loginfamily', this.state.data)
-      .then(res => {
-        Auth.setToken(res.data.token)
-        this.props.history.push(`/families/${res.data.family._id}`)
-      })
-      .catch(() => this.setState({ error: 'Clan not found' }))
+    try {
+      const res = await axios.post('/api/loginfamily', this.state.data)
+      Auth.setToken(res.data.token)
+      this.props.history.push(`/families/${res.data.family._id}`)
+    } catch {
+      this.setState({ error: 'Clan not found' })
+    }
   }
 
-  handleChange(e) {
-    const name = e.target.name
-    const value = e.target.value
+  handleChange({ target: { name, value } }) {
     const data = { ...this.state.data, [name]: value }
     this.setState({ data, error: '' })
   }

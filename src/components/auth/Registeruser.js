@@ -11,24 +11,23 @@ class Registeruser extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleChange(e) {
-    const name = e.target.name
-    const value = e.target.value
+  handleChange({ target: { name, value } }) {
     const data = { ...this.state.data, [name]: value }
     const errors = { ...this.state.errors, [name]: '' }
     this.setState({ data, errors })
   }
 
-  handleSubmit(e) {
+  handleSubmit = async (e) => {
     e.preventDefault()
-    axios.post(`/api/families/${this.props.match.params.familyId}/register`, this.state.data, {
-      headers: { Authorization: `Bearer ${Auth.getToken()}` }
-    })
-      .then(() => this.props.history.push(`/families/${this.props.match.params.familyId}/login`))
-      .catch(err => this.setState({ errors: err.response.data.errors }))
+    try {
+      await axios.post(`/api/families/${this.props.match.params.familyId}/register`, this.state.data, {
+        headers: { Authorization: `Bearer ${Auth.getToken()}` }
+      })
+      this.props.history.push(`/families/${this.props.match.params.familyId}/login`)
+    } catch (err) {
+      this.setState({ errors: err.response.data.errors })
+    }
   }
-
-
 
   render() {
     return (

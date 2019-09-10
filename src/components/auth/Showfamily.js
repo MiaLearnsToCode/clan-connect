@@ -9,12 +9,15 @@ class Showfamily extends React.Component {
     this.state = { family: {} }
   }
 
-  componentDidMount() {
-    axios.get(`/api/families/${this.props.match.params.familyId}`, this.state.data, {
-      headers: { Authorization: `Bearer ${Auth.getToken()}` }
-    })
-      .then(res => this.setState({ family: res.data }))
-      .catch(() => this.props.history.push('/error'))
+  componentDidMount = async () => {
+    try {
+      const res = await axios.get(`/api/families/${this.props.match.params.familyId}`, this.state.data, {
+        headers: { Authorization: `Bearer ${Auth.getToken()}` }
+      })
+      this.setState({ family: res.data })
+    } catch {
+      this.props.history.push('/error')
+    }
   }
 
   render() {
@@ -36,8 +39,6 @@ class Showfamily extends React.Component {
             <Link to={`/families/${this.state.family._id}/login`} className="button is-medium">
               Login to your account
             </Link>
-
-
           </div>
         </div>
       </section>

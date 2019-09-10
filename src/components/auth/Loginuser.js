@@ -11,26 +11,23 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleChange(e) {
-    const name = e.target.name
-    const value = e.target.value
+  handleChange({ target: { name, value } }) {
     const data = { ...this.state.data, [name]: value }
     this.setState({ data, error: '' })
   }
 
-  handleSubmit(e) {
+  handleSubmit = async (e) => {
     e.preventDefault()
-    axios.post(`/api/families/${this.props.match.params.familyId}/login`, this.state.data, {
-      headers: { Authorization: `Bearer ${Auth.getToken()}` }
-    })
-      .then(res => {
-        Auth.setToken(res.data.token)
-        this.props.history.push(`/families/${this.props.match.params.familyId}/announcements`)
+    try {
+      const res = await axios.post(`/api/families/${this.props.match.params.familyId}/login`, this.state.data, {
+        headers: { Authorization: `Bearer ${Auth.getToken()}` }
       })
-      .catch(() => this.setState({ error: 'Invalid Crendentials' }))
+      Auth.setToken(res.data.token)
+      this.props.history.push(`/families/${this.props.match.params.familyId}/announcements`)
+    } catch {
+      this.setState({ error: 'Invalid Crendentials' })
+    }
   }
-
-
 
   render() {
     return (
