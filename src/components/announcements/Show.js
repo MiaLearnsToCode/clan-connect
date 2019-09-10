@@ -17,45 +17,55 @@ class Show extends React.Component {
     this.getAnnouncement()
   }
 
-  getAnnouncement() {
-    axios.get(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}`, {
-      headers: { Authorization: `Bearer ${Auth.getToken()}` }
-    })
-      .then(res => this.setState({ announcement: res.data }))
-      .catch(() => this.props.history.push('/error'))
+  getAnnouncement = async () => {
+    try {
+      const res = await axios.get(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}`, {
+        headers: { Authorization: `Bearer ${Auth.getToken()}` }
+      })
+      this.setState({ announcement: res.data })
+    } catch {
+      this.props.history.push('/error')
+    }
   }
 
-  addLike(comment) {
-    axios.post(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}/likes`, comment ,{
-      headers: { Authorization: `Bearer ${Auth.getToken()}` }
-    })
-      .then(() => this.getAnnouncement())
-      .catch(() => this.props.history.push('/error'))
+  addLike = async (comment) => {
+    try {
+      await axios.post(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}/likes`, comment, {
+        headers: { Authorization: `Bearer ${Auth.getToken()}` }
+      })
+      this.getAnnouncement()
+    } catch {
+      this.props.history.push('/error')
+    }
   }
 
-  handleChange(e) {
-    const name = e.target.name
-    const value = e.target.value
+  handleChange({ target: { name, value } }) {
     this.setState({ name, value })
-  }
+  } 
 
-  handleSubmit(e) {
+  handleSubmit = async (e) => {
     e.preventDefault()
     const newComment = { [this.state.name]: this.state.value }
-    axios.post(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}/comments`, newComment, {
-      headers: { Authorization: `Bearer ${Auth.getToken()}` }
-    })
-      .then(() => this.getAnnouncement())
-      .then(() => this.setState({ name: '', value: '' }))
-      .catch(() => this.props.history.push('/error'))
+    try {
+      await axios.post(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}/comments`, newComment, {
+        headers: { Authorization: `Bearer ${Auth.getToken()}` }
+      })
+      this.getAnnouncement()
+      this.setState({ name: '', value: '' })
+    } catch {
+      this.props.history.push('/error')
+    }
   }
 
-  handleDelete() {
-    axios.delete(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}`, {
-      headers: { Authorization: `Bearer ${Auth.getToken()}` }
-    })
-      .then(() => this.props.history.push(`/families/${this.state.announcement.family}/announcements`))
-      .catch(() => this.props.history.push('/error'))
+  handleDelete = async () => {
+    try {
+      await axios.delete(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}`, {
+        headers: { Authorization: `Bearer ${Auth.getToken()}` }
+      })
+      this.props.history.push(`/families/${this.state.announcement.family}/announcements`)
+    } catch {
+      this.props.history.push('/error')
+    }
   }
 
   userArray() {

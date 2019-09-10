@@ -77,8 +77,23 @@ Once they have passed both authentication stages, the user lands on and index pa
 #
 <img src="src/assets/three.png"/> 
 
+I this project I also tried to give async functions to perform my axios requests. Here is an example of the ones I wrote for this component: 
+
+```javascript
+getAnnouncement = async () => {
+    try {
+      const res = await axios.get(`/api/families/${this.props.match.params.familyId}/announcements/${this.props.match.params.id}`, {
+        headers: { Authorization: `Bearer ${Auth.getToken()}` }
+      })
+      this.setState({ announcement: res.data })
+    } catch {
+      this.props.history.push('/error')
+    }
+  }
+```
 
 Inside each announcement there is a chat like display where users can 'comment' on the announcement and interact with other users in the family. They can post a message and also like other memeber's messages. 
+
 #
 <img src="src/assets/four.png"/> 
 <img src="src/assets/five.png"/> 

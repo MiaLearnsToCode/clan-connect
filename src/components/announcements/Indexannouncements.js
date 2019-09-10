@@ -12,16 +12,19 @@ class Indexannouncements extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  componentDidMount() {
-    this.getAnnouncements()
+  getAnnouncements = async () => {
+    try {
+      const res = await axios.get(`/api/families/${this.props.match.params.familyId}/announcements`, {
+        headers: { Authorization: `Bearer ${Auth.getToken()}` }
+      })
+      this.setState({ announcements: res.data })
+    } catch {
+      this.props.history.push('/error')
+    }
   }
 
-  getAnnouncements() {
-    axios.get(`/api/families/${this.props.match.params.familyId}/announcements`, {
-      headers: { Authorization: `Bearer ${Auth.getToken()}` }
-    })
-      .then(res => this.setState({ announcements: res.data }))
-      .catch(() => this.props.history.push('/error'))
+  componentDidMount() {
+    this.getAnnouncements()
   }
 
   handleChange(e) {
@@ -30,15 +33,18 @@ class Indexannouncements extends React.Component {
     this.setState({ name, value })
   }
 
-  handleSubmit(e) {
+  handleSubmit = async (e) => {
     e.preventDefault()
     const newPost = { [this.state.name]: this.state.value }
-    axios.post(`/api/families/${this.props.match.params.familyId}/announcements`, newPost, {
-      headers: { Authorization: `Bearer ${Auth.getToken()}` }
-    })
-      .then(() => this.getAnnouncements())
-      .then(() => this.setState({ name: '', value: '' }))
-      .catch(() => this.props.history.push('/error'))
+    try {
+      await axios.post(`/api/families/${this.props.match.params.familyId}/announcements`, newPost, {
+        headers: { Authorization: `Bearer ${Auth.getToken()}` }
+      })
+      await this.getAnnouncements()
+      this.setState({ name: '', value: '' })
+    } catch {
+      this.props.history.push('/error')
+    }
   }
 
   compareDates(a,b) {
